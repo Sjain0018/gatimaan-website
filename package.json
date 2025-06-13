@@ -4,6 +4,7 @@
   "description": "This Website is Basically Build for a Business That are Going to large in Future",
   "main": "index.js",
   "scripts": {
+    "build": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Bhavy Sharma",
