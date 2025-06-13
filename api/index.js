@@ -4,14 +4,13 @@ const cors = require('cors');
 require('dotenv').config();
 const mongoose = require('mongoose');
 
-const courseRoutes = require('./routes/courseRoutes');
-const newsRouter = require('./routes/newsRoutes');
-const News = require('./models/News');
-const Course = require('./models/courses.model');
+const courseRoutes = require('../routes/courseRoutes');
+const newsRouter = require('../routes/newsRoutes');
+const News = require('../models/News');
+const Course = require('../models/courses.model');
 
 const app = express();
 
-// ✅ MongoDB Connection
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('✅ Connected to MongoDB'))
   .catch((err) => {
@@ -19,20 +18,18 @@ mongoose.connect(process.env.MONGO_URI)
     process.exit(1);
   });
 
-// View engine
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, '../views'));
 
-// Middleware
 app.use(cors());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Routes
 app.use('/courses', courseRoutes);
 app.use('/', newsRouter);
 
+// Routes
 app.get('/', async (req, res) => {
   try {
     const [admitCards, admissions, results, courses, newsList] = await Promise.all([
@@ -51,7 +48,6 @@ app.get('/', async (req, res) => {
       newsList,
       currentPath: req.path
     });
-
   } catch (err) {
     console.error('❌ Error rendering home page:', err);
     res.status(500).send("Server Error");
@@ -84,5 +80,4 @@ app.get('/news', async (req, res) => {
   }
 });
 
-// ✅ Export app — don't start server here
 module.exports = app;
