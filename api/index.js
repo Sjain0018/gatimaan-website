@@ -102,7 +102,14 @@ mongoose.connect(process.env.MONGO_URI)
   });
 
 
-// Start Server
-app.listen(port, () => {
-  console.log(`🚀 Example app listening on port ${port}`);
+// // Start Server
+// app.listen(port, () => {
+//   console.log(`🚀 Example app listening on port ${port}`);
+// });
+
+
+app.get('/', (req, res) => {
+  res.send('Server running from Vercel!');
 });
+
+module.exports = app;
